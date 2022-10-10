@@ -7,11 +7,9 @@ public class PipeGenerator : PipePool
     [SerializeField] private float _minSpawnPositionY;
 
     private float _elapsedTime = 0;
+    private float _secondsBetweenSpawn = 1.5f;
     private float _spawnPositionY;
     private Vector3 _spawnPosition;
-    private float _minNumber = 1.4f;
-    private float _maxNumber = 2f;
-    private float _secondsBetweenSpawn;
 
     private void Start()
     {
@@ -34,8 +32,6 @@ public class PipeGenerator : PipePool
                 pipe.transform.position = _spawnPosition;
 
                 DisableObjectAbroadScreen();
-
-                _secondsBetweenSpawn = Random.Range(_minNumber, _maxNumber);
             } 
         }  
     }

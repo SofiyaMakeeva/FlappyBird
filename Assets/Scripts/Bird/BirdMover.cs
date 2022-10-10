@@ -4,29 +4,31 @@ using UnityEngine;
 public class BirdMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private float _tapForce = 10;
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _maxRotationZ;
     [SerializeField] private float _minRotationZ;
+    [SerializeField] private float _tapForce;
 
     private Vector3 _startPosition;
     private Rigidbody2D _rigidbody;
     private Quaternion _maxRotation;
     private Quaternion _minRotation;
     private bool _canFly;
+    private int _number = 200;
+    private Rect _bounds;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _maxRotation = Quaternion.Euler(0, 0, _maxRotationZ);
         _minRotation = Quaternion.Euler(0, 0, _minRotationZ);
+        _bounds = new Rect(0, 0, Screen.width, Screen.height - _number);
 
         ResetBird();
     }
-
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && _canFly == true)
+        if (Input.GetMouseButtonDown(0) && _canFly && _bounds.Contains(Input.mousePosition))
         {
             _rigidbody.velocity = new Vector2(_speed, 0);
             transform.rotation = _maxRotation;

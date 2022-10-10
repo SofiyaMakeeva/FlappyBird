@@ -35,8 +35,5 @@ public abstract class DefaultScreen : MonoBehaviour
 
     protected abstract void OnButtonClick();
 
-    private void OnExitButtonClick()
-    {
-        Application.Quit();
-    }
+    protected abstract void OnExitButtonClick();
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Game : MonoBehaviour
 {
@@ -11,6 +10,7 @@ public class Game : MonoBehaviour
     [SerializeField] private PauseScreen _pauseScreen;
     [SerializeField] private RaitingScreen _raitingScreen;
     [SerializeField] private RaitingButton _raitingButton;
+    [SerializeField] private ExitScreen _exitScreen;
 
     private void Awake()
     {
@@ -27,26 +27,58 @@ public class Game : MonoBehaviour
     {
         _bird.Died += OnDied;
         _startScreen.PlayButtonClick += OnPlayButtonClick;
+        _startScreen.ExitButtonClick += OnExitButtonClick;
         _gameOverScreen.RestartButtonClick += OnRestartButtonClick;
+        _gameOverScreen.ExitButtonClick += OnExitButtonClick;
         _pauseScreen.PauseButton += OnPauseButtonClick;
+        _pauseScreen.ExitButtonClick += OnExitButtonClick;
         _raitingScreen.CloseRaiting += OnCloseRaitingButtonClick;
+        _raitingScreen.ExitButtonClick += OnExitButtonClick;
         _raitingButton.RaitingButtonClick += OnRaitingButtonClick;
+        _exitScreen.Canceled += OnCancleButtonClick;
     }
 
     private void OnDisable()
     {
         _bird.Died -= OnDied;
         _startScreen.PlayButtonClick -= OnPlayButtonClick;
+        _startScreen.ExitButtonClick -= OnExitButtonClick;
         _gameOverScreen.RestartButtonClick -= OnRestartButtonClick;
+        _gameOverScreen.ExitButtonClick -= OnExitButtonClick;
         _pauseScreen.PauseButton -= OnPauseButtonClick;
+        _pauseScreen.ExitButtonClick -= OnExitButtonClick;
         _raitingScreen.CloseRaiting -= OnCloseRaitingButtonClick;
+        _raitingScreen.ExitButtonClick -= OnExitButtonClick;
         _raitingButton.RaitingButtonClick -= OnRaitingButtonClick;
+        _exitScreen.Canceled -= OnCancleButtonClick;
+    }
+
+    private void OnCancleButtonClick()
+    {
+        if (_gameOverScreen.GameOverCanvasGroup.alpha == 1 || _startScreen.StartCanvasGroup.alpha == 1)
+        {
+            _exitScreen.Close();
+        }
+        else
+        {
+            _exitScreen.Close();
+            Time.timeScale = 1;
+            _birdMover.SetTheBoolToFly(true);
+        }
+    }
+
+    private void OnExitButtonClick()
+    {
+        _birdMover.SetTheBoolToFly(false);
+        _exitScreen.Open();
+        Time.timeScale = 0;
     }
 
     private void OnCloseRaitingButtonClick()
     {
         _raitingScreen.Close();
         _gameOverScreen.Open();
+
     }
 
     private void OnRaitingButtonClick()
@@ -73,18 +105,15 @@ public class Game : MonoBehaviour
         _birdMover.SetTheBoolToFly(true);
     }
 
-    private void OnPauseButtonClick()
+    public void OnPauseButtonClick()
     {
-
         if (Time.timeScale == 1)
-        { 
-            _birdMover.SetTheBoolToFly(false);
-            Time.timeScale = 0;
+        {
+            Time.timeScale = 0;          
         }
         else
         {
             Time.timeScale = 1;
-            _birdMover.SetTheBoolToFly(true);
         }
     }
 

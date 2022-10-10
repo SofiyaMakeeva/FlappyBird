@@ -40,7 +40,7 @@ public class PipePool : MonoBehaviour
 
     protected void DisableObjectAbroadScreen()
     {
-        Vector3 disablePoint = _camera.ViewportToWorldPoint(new Vector2(0, 0.5f));
+        Vector3 disablePoint = _camera.ViewportToWorldPoint(new Vector2(0.5f, 0.5f));
 
         foreach (var item in _pool)
         {
